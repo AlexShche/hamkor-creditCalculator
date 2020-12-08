@@ -1,0 +1,76 @@
+@import "src/css/variables";
+
+.creditCalculator{
+
+  .head{
+    padding: 15px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $grey;
+
+    h4{
+      font-weight: $fontWeight;
+      font-size: $titleSize;
+      margin-bottom: 0;
+    }
+
+    button{
+      border: 0;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      height: 18px;
+      width: 18px;
+      margin-right: 24px;
+
+      svg{
+        fill: $mainColor;
+        height: 18px;
+        width: 18px;
+      }
+    }
+  }
+
+  .content{
+
+    h3{
+      margin-bottom: 18px;
+      padding: 0 15px;
+      font-weight: $fontWeight;
+      font-size: 1.25rem;
+      color: $mainColor;
+    }
+
+    .conditions{
+
+      div{
+        display: flex;
+        align-items: center;
+        padding: 15px;
+
+        span:first-child{
+          font-weight: $fontWeight;
+        }
+
+        span:last-child{
+          margin-left: auto;
+        }
+      }
+
+      div:nth-child(odd){
+        background: $grey;
+      }
+    }
+
+    .prompt{
+      padding: 15px;
+
+      p{
+        margin-bottom: 6px;
+        font-weight: $fontWeight;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,51 @@
+@import "variables";
+
+body{
+  font-size: $defaultFontSize;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.next-btn{
+  font-size: 15px;
+  color: #fff;
+  height: 52px;
+  background: linear-gradient(309.22deg, #006F44 -38.47%, #539E81 127.21%);
+  display: block;
+  width: calc(100% - 30px);
+  border-radius: $borderRadius;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  bottom: 15px;
+  right: 0;
+}
+
+.next-btn:hover{
+  color: #fff;
+  background: linear-gradient(309.22deg, #006F44 -38.47%, #539E81 127.21%);
+}
+
+.ant-btn:hover, .ant-btn:focus {
+  color: #fff;
+  border-color: $mainColor;
+}
+
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background: linear-gradient(309.22deg, #006F44 -38.47%, #539E81 127.21%) !important;
+  border-color: transparent;
+}
+
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+  background: linear-gradient(309.22deg, #006F44 -38.47%, #539E81 127.21%) !important;
+  border-color: transparent;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover::before {
+  display: none !important
+}
+
+.ant-radio-button-wrapper:not(:first-child)::before{
+  background: transparent;
+}
