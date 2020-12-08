@@ -1,18 +1,16 @@
 import React, {useState} from "react"
-import {Form, Checkbox, Button, Radio, Modal} from "antd"
+import {Form, Checkbox, Button, Radio, Select} from "antd"
 
 // components
 import {Icon} from "../../components/Icon"
+import {Success} from "../Success/Success"
 import "./calculator.scss"
-import {Success} from "../Success/Success";
 
 export const Calculator = ({backFromCalculator}) => {
 
-    const [offer, setOffer] = useState(false)
-    const [annuity, setAnnuity] = useState(false)
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [changeAnnuity, setChangeAnnuity] = useState(null)
+    const {Option} = Select
 
+    const [offer, setOffer] = useState(false)
     const [success, setSuccess] = useState(false)
 
     const onFinish = (values) => {
@@ -20,51 +18,33 @@ export const Calculator = ({backFromCalculator}) => {
         setSuccess(true)
     }
 
-    const handleOk = () => {
-        setIsModalVisible(false)
-        changeAnnuity === 1 ? setAnnuity(false) : setAnnuity(true)
-    }
-
-    const handleCancel = () => setIsModalVisible(false)
-
     return (
         <div className="calculator">
             {
                 success ? <Success/> :
                     <>
-                        <Modal
-                            className="modalAnnuity"
-                            title="Вид платежа"
-                            visible={isModalVisible}
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                            style={{bottom: 0}}
-                            footer={[
-                                <Button className="next-btn" key="change" onClick={handleOk}>
-                                    Изменить
-                                </Button>,
-                            ]}
-                        >
-                            <Radio.Group defaultValue={1} onChange={e => setChangeAnnuity(e.target.value)}>
-                                <Radio value={1}>Аннуитет</Radio>
-                                <Radio value={2}>Дифференцированный</Radio>
-                            </Radio.Group>
-                        </Modal>
                         <div className="head">
                             <Button
                                 icon={<Icon path="arrow"/>}
                                 onClick={() => backFromCalculator()}
                             />
-                            <h4>Онлайн микрозайм</h4>
+                            <h4>Кредитный калькулятор</h4>
                         </div>
-                        <Form onFinish={onFinish}>
-                            <div className="fields">
-                                <div>
-                                    <span className="name">Сумма кредита:</span>
-                                    <span className="result">22 300 000 сум</span>
-                                </div>
-                                <div>
-                                    <span className="name">Срок кредита:</span>
+                        <Form>
+                            <h3>Калькулятор</h3>
+                            <div className="params">
+                                <span className="param_name">
+                                    <Icon path="dollar"/>
+                                    Сумма кредита:
+                                </span>
+                                <Select defaultValue="22300000">
+                                    <Option value="22300000">22 300 000</Option>
+                                    <Option value="20300000">20 300 000</Option>
+                                    <Option value="15300000">15 300 000</Option>
+                                    <Option value="10300000">10 300 000</Option>
+                                    <Option value="2300000">2 300 000</Option>
+                                </Select>
+                                <div className="month">
                                     <Radio.Group defaultValue="3" buttonStyle="solid">
                                         <Radio.Button value="3">3 мес</Radio.Button>
                                         <Radio.Button value="6">6 мес</Radio.Button>
@@ -72,22 +52,27 @@ export const Calculator = ({backFromCalculator}) => {
                                         <Radio.Button value="12">12 мес</Radio.Button>
                                     </Radio.Group>
                                 </div>
-                                <div>
-                                    <span className="name">Ежемесячный платеж:</span>
-                                    <span className="result month-payment">640 000 сум</span>
-                                </div>
-                                <div>
-                                    <span className="name">Процентная ставка:</span>
-                                    <span className="result">23%</span>
-                                </div>
+                                <span className="param_name">
+                                    <Icon path="list"/>
+                                    Ежемесячный платеж:
+                                    <span className="month-payment">640 000 сум</span>
+                                </span>
+                                <span className="param_name">
+                                    <Icon path="percent"/>
+                                    Процентная ставка:
+                                    <span>23%</span>
+                                </span>
                             </div>
 
                             <div className="typePayment">
-                                <span>Вид платежа</span>
-                                <div onClick={() => setIsModalVisible(true)}>
-                                    {annuity ? "Дифференцированный" : "Аннуитет"}
-                                    <Icon path="downArrow"/>
-                                </div>
+                                <span className="param_name">
+                                    <Icon path="listSuccess"/>
+                                    Вид платежа:
+                                </span>
+                                <Select defaultValue="annuity">
+                                    <Option value="annuity">Аннуитет</Option>
+                                    <Option value="Differentiated">Диференцированный</Option>
+                                </Select>
                             </div>
 
                             <Form.Item
@@ -99,13 +84,10 @@ export const Calculator = ({backFromCalculator}) => {
                                     Я принимаю условия <span>договора оферты</span>
                                 </Checkbox>
                             </Form.Item>
-
-                            <Form.Item>
-                                <Button disabled={!offer} htmlType="submit" className="next-btn">
-                                    Далее
-                                </Button>
-                            </Form.Item>
                         </Form>
+                        <Button disabled={!offer} onClick={onFinish} htmlType="submit" className="next-btn">
+                            Далее
+                        </Button>
                     </>
             }
         </div>

@@ -1,21 +1,23 @@
 @import "src/css/variables";
 
-.creditCalculator{
+.creditCalculator {
 
-  .head{
+  .head {
+    background: #fff;
     padding: 15px;
     margin-bottom: 24px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid $grey;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 0 0 12px 12px;
 
-    h4{
+    h4 {
       font-weight: $fontWeight;
       font-size: $titleSize;
       margin-bottom: 0;
     }
 
-    button{
+    button {
       border: 0;
       box-shadow: none;
       display: flex;
@@ -24,7 +26,7 @@
       width: 18px;
       margin-right: 24px;
 
-      svg{
+      svg {
         fill: $mainColor;
         height: 18px;
         width: 18px;
@@ -32,9 +34,14 @@
     }
   }
 
-  .content{
+  .content {
+    background: #fff;
+    margin: 0 15px;
+    border-radius: $borderRadius;
+    padding: 25px 0 15px;
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.05));
 
-    h3{
+    h3 {
       margin-bottom: 18px;
       padding: 0 15px;
       font-weight: $fontWeight;
@@ -42,33 +49,36 @@
       color: $mainColor;
     }
 
-    .conditions{
+    .conditions {
 
-      div{
-        display: flex;
-        align-items: center;
-        padding: 15px;
+      .item {
+        padding: 6px 15px;
+        margin-bottom: 6px;
 
-        span:first-child{
+        div {
+          margin-top: 8px;
+          display: flex;
+          align-items: center;
+
+          svg {
+            width: 20px;
+            height: 20px;
+            fill: $iconColor;
+            margin-right: 10px;
+          }
+        }
+
+        span:first-child {
           font-weight: $fontWeight;
         }
-
-        span:last-child{
-          margin-left: auto;
-        }
       }
 
-      div:nth-child(odd){
-        background: $grey;
+      .attention svg{
+        width: 36px !important;
       }
-    }
 
-    .prompt{
-      padding: 15px;
-
-      p{
-        margin-bottom: 6px;
-        font-weight: $fontWeight;
+      .item:last-child{
+        margin-bottom: 0;
       }
     }
   }

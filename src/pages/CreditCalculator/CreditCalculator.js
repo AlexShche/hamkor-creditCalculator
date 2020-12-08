@@ -29,22 +29,34 @@ export const CreditCalculator = () => {
                         <div className="content">
                             <h3>Условия кредита</h3>
                             <div className="conditions">
-                                <div>
+                                <div className="item">
                                     <span>Процентная ставка:</span>
-                                    <span>23% годовых</span>
+                                    <div>
+                                        <Icon path="percent" />
+                                        23% годовых
+                                    </div>
                                 </div>
-                                <div>
+                                <div className="item">
                                     <span>Сумма:</span>
-                                    <span>до 22 300 000 сум</span>
+                                    <div>
+                                        <Icon path="clock" />
+                                        до 22 300 000 сум
+                                    </div>
                                 </div>
-                                <div>
+                                <div className="item">
                                     <span>Срок:</span>
-                                    <span>до 12 месяцев</span>
+                                    <div>
+                                        <Icon path="dollar" />
+                                        до 12 месяцев
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="prompt">
-                                <p>Форма предоставления:</p>
-                                <span>Зачисление средств на пластиковую карту АКБ "Hamkorbank"</span>
+                                <div className="item attention">
+                                    <span>Форма предоставления:</span>
+                                    <div>
+                                        <Icon path="attention" />
+                                        Зачисление средств на пластиковую карту АКБ "Hamkorbank"
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <Button className="next-btn" onClick={() => setVisibleCalculate(true)}>Далее</Button>
