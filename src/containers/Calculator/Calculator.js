@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {Form, Checkbox, Button, Radio, Select} from "antd"
+import {Form, Checkbox, Button, Radio, Select, Slider} from "antd"
 
 // components
 import {Icon} from "../../components/Icon"
@@ -11,11 +11,26 @@ export const Calculator = ({backFromCalculator}) => {
     const {Option} = Select
 
     const [offer, setOffer] = useState(false)
+    const [credit, setCredit] = useState(2300000)
+    const [month, setMonth] = useState(3)
+    const [typePayment, setTypePayment] = useState("annuity")
     const [success, setSuccess] = useState(false)
+    const [creditView, setCreditView] = useState(796229)
 
     const onFinish = (values) => {
         console.log('Success:', values)
         setSuccess(true)
+    }
+
+    const result = (paramMonth, paramCredit) => {
+        console.log("paramCredit", paramCredit)
+        console.log("paramMonth", paramMonth)
+        if (typePayment === "annuity") {
+            const percent = Number((23 / 12).toFixed(4)) / 100
+            const numerator = Number((percent * Math.pow((1 + percent), paramMonth)).toFixed(5))
+            const denominator = Number((Math.pow((1 + percent), paramMonth) - 1).toFixed(5))
+            setCreditView(Math.round(paramCredit * (numerator / denominator)))
+        }
     }
 
     return (
@@ -36,16 +51,32 @@ export const Calculator = ({backFromCalculator}) => {
                                 <span className="param_name">
                                     <Icon path="dollar"/>
                                     Сумма кредита:
+                                    <span
+                                        className="credit">{String(credit).replace(/(\d)(?=(\d{3})+(\D|$))/g, '$1 ')}</span>
                                 </span>
-                                <Select defaultValue="22300000">
-                                    <Option value="22300000">22 300 000</Option>
-                                    <Option value="20300000">20 300 000</Option>
-                                    <Option value="15300000">15 300 000</Option>
-                                    <Option value="10300000">10 300 000</Option>
-                                    <Option value="2300000">2 300 000</Option>
-                                </Select>
+                                <Slider
+                                    onChange={e => {
+                                        result(month, e)
+                                        setCredit(e)
+                                    }}
+                                    tooltipVisible={false}
+                                    step={1000000}
+                                    defaultValue={2300000}
+                                    min={2300000}
+                                    max={22300000}
+                                />
+                                <div className="range_slider">
+                                    <span>2 300 000</span>
+                                    <span>22 300 000</span>
+                                </div>
                                 <div className="month">
-                                    <Radio.Group defaultValue="3" buttonStyle="solid">
+                                    <Radio.Group
+                                        defaultValue="3"
+                                        buttonStyle="solid"
+                                        onChange={e => {
+                                            result(+e.target.value, credit)
+                                            setMonth(+e.target.value)
+                                        }}>
                                         <Radio.Button value="3">3 мес</Radio.Button>
                                         <Radio.Button value="6">6 мес</Radio.Button>
                                         <Radio.Button value="9">9 мес</Radio.Button>
@@ -55,7 +86,9 @@ export const Calculator = ({backFromCalculator}) => {
                                 <span className="param_name">
                                     <Icon path="list"/>
                                     Ежемесячный платеж:
-                                    <span className="month-payment">640 000 сум</span>
+                                    <span className="month-payment">
+                                        {String(creditView).replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")} сум
+                                    </span>
                                 </span>
                                 <span className="param_name">
                                     <Icon path="percent"/>
@@ -69,9 +102,16 @@ export const Calculator = ({backFromCalculator}) => {
                                     <Icon path="listSuccess"/>
                                     Вид платежа:
                                 </span>
-                                <Select defaultValue="annuity">
+                                <Select
+                                    defaultValue="annuity"
+                                    showArrow={false}
+                                    onChange={e => {
+                                        result()
+                                        setTypePayment(e)
+                                    }}
+                                >
                                     <Option value="annuity">Аннуитет</Option>
-                                    <Option value="Differentiated">Диференцированный</Option>
+                                    <Option value="differentiated">Диференцированный</Option>
                                 </Select>
                             </div>
 
@@ -85,9 +125,14 @@ export const Calculator = ({backFromCalculator}) => {
                                 </Checkbox>
                             </Form.Item>
                         </Form>
-                        <Button disabled={!offer} onClick={onFinish} htmlType="submit" className="next-btn">
-                            Далее
-                        </Button>
+                        <div className="navigation">
+                            <div className="dots">
+                                <div className="active"/>
+                                <div className="active"/>
+                                <div/>
+                            </div>
+                            <Button disabled={!offer} onClick={onFinish} className="next-btn">Отправить заявку</Button>
+                        </div>
                     </>
             }
         </div>

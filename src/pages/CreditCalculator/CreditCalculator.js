@@ -15,7 +15,7 @@ export const CreditCalculator = () => {
     }
 
     return (
-        <div className="creditCalculator">
+        <div className={`${visibleCalculate ? "calculatorVisible" : ""} creditCalculator`}>
             {
                 visibleCalculate ? <Calculator backFromCalculator={() => setVisibleCalculate(false)} /> :
                     <>
@@ -27,39 +27,46 @@ export const CreditCalculator = () => {
                             <h4>Онлайн микрозайм</h4>
                         </div>
                         <div className="content">
-                            <h3>Условия кредита</h3>
-                            <div className="conditions">
-                                <div className="item">
-                                    <span>Процентная ставка:</span>
-                                    <div>
-                                        <Icon path="percent" />
-                                        23% годовых
+                            <div className="inner">
+                                <h3>Условия кредита</h3>
+                                <div className="conditions">
+                                    <div className="item">
+                                        <span>Процентная ставка:</span>
+                                        <div>
+                                            <Icon path="percent" />
+                                            23% годовых
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="item">
-                                    <span>Сумма:</span>
-                                    <div>
-                                        <Icon path="clock" />
-                                        до 22 300 000 сум
+                                    <div className="item">
+                                        <span>Сумма:</span>
+                                        <div>
+                                            <Icon path="clock" />
+                                            до 22 300 000 сум
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="item">
-                                    <span>Срок:</span>
-                                    <div>
-                                        <Icon path="dollar" />
-                                        до 12 месяцев
+                                    <div className="item">
+                                        <span>Срок:</span>
+                                        <div>
+                                            <Icon path="dollar" />
+                                            до 12 месяцев
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="item attention">
-                                    <span>Форма предоставления:</span>
-                                    <div>
-                                        <Icon path="attention" />
-                                        Зачисление средств на пластиковую карту АКБ "Hamkorbank"
+                                    <div className="item attention">
+                                        <span>Форма предоставления:</span>
+                                        <div>
+                                            <Icon path="attention" />
+                                            Зачисление средств на пластиковую карту АКБ "Hamkorbank"
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Button className="next-btn" onClick={() => setVisibleCalculate(true)}>Далее</Button>
+                        <div className="navigation">
+                            <div className="dots">
+                                <div className="active"/> <div/> <div/>
+                            </div>
+                            <Button className="next-btn" onClick={() => setVisibleCalculate(true)}>Далее</Button>
+                        </div>
                     </>
             }
         </div>
