@@ -16,20 +16,33 @@ export const Calculator = ({backFromCalculator}) => {
     const [typePayment, setTypePayment] = useState("annuity")
     const [creditView, setCreditView] = useState(796229)
     const [success, setSuccess] = useState(false)
+    const [monthPayment, setMonthPayment] = useState([])
 
     const onFinish = (values) => {
         console.log('Success:', values)
         setSuccess(true)
+        console.log(monthPayment)
     }
 
-    const result = (paramMonth, paramCredit) => {
-        if (typePayment === "annuity") {
-            const percent = Number((23 / 12).toFixed(4))
+    const result = (paramMonth, paramCredit, typeCredit) => {
+        const percent = Number((23 / 12).toFixed(4)) / 100
+
+        if (typeCredit === "annuity") {
             const numerator = Number((percent * Math.pow((1 + percent), paramMonth)).toFixed(5))
             const denominator = Number((Math.pow((1 + percent), paramMonth) - 1).toFixed(5))
             setCreditView(Math.round(paramCredit * (numerator / denominator)))
         } else {
-
+            setMonthPayment([])
+            for (let i = 0; i < paramMonth; i++) {
+                const mainMonthlyDebt = Number((paramCredit / paramMonth).toFixed(4))
+                const allRemainingDebt = Number(paramCredit - mainMonthlyDebt * i)
+                setMonthPayment(prevState => {
+                    return [
+                        ...prevState,
+                        Math.round(mainMonthlyDebt + allRemainingDebt * percent)
+                    ]
+                })
+            }
         }
     }
 
@@ -56,7 +69,7 @@ export const Calculator = ({backFromCalculator}) => {
                                 </span>
                                 <Slider
                                     onChange={e => {
-                                        result(month, e)
+                                        result(month, e, typePayment)
                                         setCredit(e)
                                     }}
                                     tooltipVisible={false}
@@ -74,7 +87,7 @@ export const Calculator = ({backFromCalculator}) => {
                                         defaultValue="3"
                                         buttonStyle="solid"
                                         onChange={e => {
-                                            result(+e.target.value, credit)
+                                            result(+e.target.value, credit, typePayment)
                                             setMonth(+e.target.value)
                                         }}>
                                         <Radio.Button value="3">3 мес</Radio.Button>
@@ -87,7 +100,12 @@ export const Calculator = ({backFromCalculator}) => {
                                     <Icon path="list"/>
                                     Ежемесячный платеж:
                                     <span className="month-payment">
-                                        {String(creditView).replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")} сум
+                                        {
+                                            typePayment !== "annuity" ?
+                                                String(monthPayment[0]).replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ") :
+                                                String(creditView).replace(/(\d)(?=(\d{3})+(\D|$))/g, "$1 ")
+                                        }
+                                        &nbsp;сум
                                     </span>
                                 </span>
                                 <span className="param_name">
@@ -106,7 +124,7 @@ export const Calculator = ({backFromCalculator}) => {
                                     defaultValue="annuity"
                                     showArrow={false}
                                     onChange={e => {
-                                        result()
+                                        result(month, credit, e)
                                         setTypePayment(e)
                                     }}
                                 >
