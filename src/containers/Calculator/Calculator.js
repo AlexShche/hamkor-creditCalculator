@@ -6,7 +6,7 @@ import {Icon} from "../../components/Icon"
 import {Success} from "../Success/Success"
 import "./calculator.scss"
 
-export const Calculator = ({backFromCalculator}) => {
+export const Calculator = ({backFromCalculator, successPage}) => {
 
     const {Option} = Select
 
@@ -20,8 +20,12 @@ export const Calculator = ({backFromCalculator}) => {
 
     const onFinish = (values) => {
         console.log('Success:', values)
+        successPage()
         setSuccess(true)
-        console.log(monthPayment)
+    }
+
+    const backToApplication = () => {
+        console.log("back to application")
     }
 
     const result = (paramMonth, paramCredit, typeCredit) => {
@@ -69,7 +73,7 @@ export const Calculator = ({backFromCalculator}) => {
                                 </span>
                                 <Slider
                                     onChange={e => {
-                                        result(month, e, typePayment)
+                                        result(month, e)
                                         setCredit(e)
                                     }}
                                     tooltipVisible={false}
@@ -145,7 +149,6 @@ export const Calculator = ({backFromCalculator}) => {
                         </Form>
                         <div className="navigation">
                             <div className="dots">
-                                <div className="active"/>
                                 <div className="active"/>
                                 <div/>
                             </div>

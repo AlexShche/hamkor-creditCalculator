@@ -1,7 +1,23 @@
 @import "src/css/variables";
 
+.thanks{
+  min-height: unset !important;
+
+  .calculator{
+    padding-top: 0;
+    height: 100%;
+    display: flex;
+
+    .successRequest{
+      text-align: center;
+      margin: auto;
+    }
+  }
+}
+
 .creditCalculator {
-  min-height: 630px;
+  min-height: 694px;
+  //min-height: 630px;
   height: 100%;
   position: relative;
 
