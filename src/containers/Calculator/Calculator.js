@@ -14,8 +14,8 @@ export const Calculator = ({backFromCalculator}) => {
     const [credit, setCredit] = useState(2300000)
     const [month, setMonth] = useState(3)
     const [typePayment, setTypePayment] = useState("annuity")
-    const [success, setSuccess] = useState(false)
     const [creditView, setCreditView] = useState(796229)
+    const [success, setSuccess] = useState(false)
 
     const onFinish = (values) => {
         console.log('Success:', values)
@@ -23,13 +23,13 @@ export const Calculator = ({backFromCalculator}) => {
     }
 
     const result = (paramMonth, paramCredit) => {
-        console.log("paramCredit", paramCredit)
-        console.log("paramMonth", paramMonth)
         if (typePayment === "annuity") {
-            const percent = Number((23 / 12).toFixed(4)) / 100
+            const percent = Number((23 / 12).toFixed(4))
             const numerator = Number((percent * Math.pow((1 + percent), paramMonth)).toFixed(5))
             const denominator = Number((Math.pow((1 + percent), paramMonth) - 1).toFixed(5))
             setCreditView(Math.round(paramCredit * (numerator / denominator)))
+        } else {
+
         }
     }
 
