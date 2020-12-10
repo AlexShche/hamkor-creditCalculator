@@ -1,12 +1,21 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {Form, Checkbox, Button, Radio, Select, Slider} from "antd"
+import axios from "axios"
+import moment from "moment"
 
 // components
 import {Icon} from "../../components/Icon"
 import {Success} from "../Success/Success"
+import {config} from "../../config"
 import "./calculator.scss"
 
 export const Calculator = ({backFromCalculator, successPage}) => {
+
+    useEffect(() => {
+        axios.get(`${config.API_URL}/loans/1`)
+            .then(r => console.log("response", r))
+            .catch(e => console.log(e))
+    }, [])
 
     const {Option} = Select
 
@@ -18,10 +27,14 @@ export const Calculator = ({backFromCalculator, successPage}) => {
     const [success, setSuccess] = useState(false)
     const [monthPayment, setMonthPayment] = useState([])
 
-    const onFinish = (values) => {
-        console.log('Success:', values)
-        successPage()
-        setSuccess(true)
+    const onFinish = () => {
+        console.group('params:')
+        console.log('credit:', credit)
+        console.log('month:', month)
+        console.log('typePayment:', typePayment)
+        console.log(moment().format('YYYY-MM-DD hh:mm:ss.SSSSSS'))
+        // successPage()
+        // setSuccess(true)
     }
 
     const backToApplication = () => {
@@ -58,7 +71,8 @@ export const Calculator = ({backFromCalculator, successPage}) => {
                         <div className="head">
                             <Button
                                 icon={<Icon path="arrow"/>}
-                                onClick={() => backFromCalculator()}
+                                // onClick={() => backFromCalculator()}
+                                onClick={backToApplication}
                             />
                             <h4>Кредитный калькулятор</h4>
                         </div>
