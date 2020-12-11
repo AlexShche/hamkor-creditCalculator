@@ -26,15 +26,27 @@ export const Calculator = ({backFromCalculator, successPage}) => {
     const [creditView, setCreditView] = useState(796229)
     const [success, setSuccess] = useState(false)
     const [monthPayment, setMonthPayment] = useState([])
+    const [creditId, setCreditId] = useState(0)
+    const [loading, setLoading] = useState(false)
 
     const onFinish = () => {
-        console.group('params:')
-        console.log('credit:', credit)
-        console.log('month:', month)
-        console.log('typePayment:', typePayment)
-        console.log(moment().format('YYYY-MM-DD hh:mm:ss.SSSSSS'))
-        // successPage()
-        // setSuccess(true)
+        setLoading(true)
+        const params = {
+            loan_amount: credit,
+            loan_term: month,
+            begin_date: moment().format("YYYY-MM-DD hh:mm:ss.SSSSSS"),
+            end_date: moment().add(month, "month").format("YYYY-MM-DD hh:mm:ss.SSSSSS"),
+            writed_date: moment().format("YYYY-MM-DD hh:mm:ss.SSSSSS"),
+            calctype_id: typePayment === "annuity" ? 1 : 2
+        }
+        axios.post(`${config.API_URL}/loans`, params)
+            .then(r => {
+                successPage()
+                setSuccess(true)
+                setCreditId(r.data.data.id)
+            })
+            .catch(e => console.log(e))
+            .finally(() => setLoading(false))
     }
 
     const backToApplication = () => {
@@ -53,12 +65,7 @@ export const Calculator = ({backFromCalculator, successPage}) => {
             for (let i = 0; i < paramMonth; i++) {
                 const mainMonthlyDebt = Number((paramCredit / paramMonth).toFixed(4))
                 const allRemainingDebt = Number(paramCredit - mainMonthlyDebt * i)
-                setMonthPayment(prevState => {
-                    return [
-                        ...prevState,
-                        Math.round(mainMonthlyDebt + allRemainingDebt * percent)
-                    ]
-                })
+                setMonthPayment(prevState => [...prevState, Math.round(mainMonthlyDebt + allRemainingDebt * percent)])
             }
         }
     }
@@ -66,7 +73,7 @@ export const Calculator = ({backFromCalculator, successPage}) => {
     return (
         <div className="calculator">
             {
-                success ? <Success/> :
+                success ? <Success creditId={creditId} /> :
                     <>
                         <div className="head">
                             <Button
@@ -166,7 +173,7 @@ export const Calculator = ({backFromCalculator, successPage}) => {
                                 <div className="active"/>
                                 <div/>
                             </div>
-                            <Button disabled={!offer} onClick={onFinish} className="next-btn">Отправить заявку</Button>
+                            <Button disabled={!offer} loading={loading} onClick={onFinish} className="next-btn">Отправить заявку</Button>
                         </div>
                     </>
             }

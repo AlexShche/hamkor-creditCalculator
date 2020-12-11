@@ -1,7 +1,7 @@
 import React from "react"
 import {Button} from "antd"
 
-export const Success = () => {
+export const Success = ({creditId}) => {
 
     const backToApplication = () => {
         console.log("to application")
@@ -11,7 +11,7 @@ export const Success = () => {
         <div className="successRequest">
             <h3>Спасибо</h3>
             <p>
-                Ваша заявка №0001 принята. <br/>
+                Ваша заявка №{creditId} принята. <br/>
                 Мы свяжемся с вами <br/> в ближайшее время
             </p>
             <div className="navigation">
